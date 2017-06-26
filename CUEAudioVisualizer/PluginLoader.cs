@@ -24,7 +24,7 @@ namespace CUEAudioVisualizer
                 if (pluginAssembly == null) continue; //Unable to load assembly
 
                 //Load all IPlugin instances in the current assembly
-                var iPluginTypes = pluginAssembly.GetTypes().Where(type => typeof(IPlugin).IsAssignableFrom(type) && type.IsClass); //Get all IPlugin classes defined in the plugin
+                IEnumerable<Type> iPluginTypes = pluginAssembly.GetTypes().Where(type => typeof(IPlugin).IsAssignableFrom(type) && type.IsClass); //Get all IPlugin classes defined in the plugin
                 foreach (Type currentPlugin in iPluginTypes)
                 {
                     try

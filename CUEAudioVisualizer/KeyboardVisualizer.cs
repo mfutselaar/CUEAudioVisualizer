@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using CUE.NET;
+using CUE.NET.Brushes;
+using CUE.NET.Devices;
+using CUE.NET.Devices.Generic;
 using CUE.NET.Devices.Generic.Enums;
 using CUE.NET.Devices.Keyboard;
-using CUE.NET.Devices.Keyboard.Keys;
 using CUE.NET.Exceptions;
 using CUEAudioVisualizer.Exceptions;
 using CUEAudioVisualizer.Plugin;
@@ -87,8 +87,8 @@ namespace CUEAudioVisualizer
         //Prints device info to console, such as KB detected and the calculated rect
         private void PrintDeviceInfo()
         {
-            var devInfo = Keyboard.DeviceInfo;
-            var kbRect = Keyboard.KeyboardRectangle;
+            IDeviceInfo devInfo = Keyboard.DeviceInfo;
+            RectangleF kbRect = Keyboard.DeviceRectangle;
             string deviceModel = devInfo.Model;
             Console.WriteLine("Keyboard {0} detected.", deviceModel);
             Console.WriteLine("Device Rectangle {0}x{1} at {2},{3}", kbRect.Width, kbRect.Height, kbRect.X, kbRect.Y);
@@ -99,7 +99,7 @@ namespace CUEAudioVisualizer
         {
             CueSDK.Initialize(ExclusiveAccess);
             if (!CheckForCUEError()) return false;
-            var protocol = CueSDK.ProtocolDetails;
+            CorsairProtocolDetails protocol = CueSDK.ProtocolDetails;
             Console.WriteLine("CUE SDK: SDK Version {0}, Server Version {1}", protocol.SdkVersion, protocol.ServerVersion);
             return true;
         }
@@ -171,18 +171,18 @@ namespace CUEAudioVisualizer
             }
 
             DataProcessor.Process();
-            
+
             //Do whatever and UpdateLeds
             CorsairKeyboard kb = Keyboard;
-            
-            kb.Color = Color.Black; //Clear keyboard colors
+
+            kb.Brush = (SolidColorBrush)Color.Black; //Clear keyboard colors
 
             if (activeMode != null)
             {
                 activeMode.UpdateDelegate();
             }
 
-            Keyboard.UpdateLeds();
+            Keyboard.Update();
         }
 
         //Loads built-in plugins, and all plugins from Plugins folder, if it exists.

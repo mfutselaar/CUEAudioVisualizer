@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CUE.NET.Devices.Keyboard.Keys;
 using CUEAudioVisualizer;
 using CUEAudioVisualizer.Plugin;
 
@@ -27,14 +22,14 @@ namespace ExamplePlugin
 
         public void SpectrumResponsiveBackground()
         {
-            float kbWidth = Host.Keyboard.KeyboardRectangle.Location.X + Host.Keyboard.KeyboardRectangle.Width;
-            float kbHeight = Host.Keyboard.KeyboardRectangle.Location.Y + Host.Keyboard.KeyboardRectangle.Height;
+            float kbWidth = Host.Keyboard.DeviceRectangle.Location.X + Host.Keyboard.DeviceRectangle.Width;
+            float kbHeight = Host.Keyboard.DeviceRectangle.Location.Y + Host.Keyboard.DeviceRectangle.Height;
             float barCount = Host.SmoothedBarData.Length;
 
-            foreach (CorsairKey key in Host.Keyboard.Keys)
+            foreach (CorsairLed key in Host.Keyboard.Keys)
             {
                 //Calculate the color for each individual key, and light it up if necessary
-                RectangleF keyRect = key.KeyRectangle;
+                RectangleF keyRect = key.LedRectangle;
                 PointF keyCenterPos = new PointF(keyRect.Location.X + (keyRect.Width / 2f), keyRect.Location.Y + (keyRect.Height / 2f)); //Sample center of key
                 float keyVerticalPos = (keyCenterPos.Y / kbHeight);
                 float keyHorizontalPos = (keyCenterPos.X / kbWidth);

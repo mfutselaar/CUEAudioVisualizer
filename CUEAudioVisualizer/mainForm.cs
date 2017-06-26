@@ -198,7 +198,7 @@ namespace CUEAudioVisualizer
             List<string> deviceNameList = new List<string>();
             for (int i = 0; i < devices.Length; i++)
             {
-                var curDevice = devices[i];
+                BASS_WASAPI_DEVICEINFO curDevice = devices[i];
                 if (curDevice.IsEnabled && curDevice.SupportsRecording)
                 {
                     string deviceName = curDevice.name;
